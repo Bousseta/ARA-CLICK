@@ -1,5 +1,5 @@
 # Ara
-![ARA Admin Template](https://github.com/Bousseta/ARA-CLICK/blob/main/Cap.png?raw=true)
+![ARA Admin Template](https://github.com/Bousseta/ARA-CLICK/blob/main/Cap.PNG?raw=true)
 # Front-end
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.2.
 
