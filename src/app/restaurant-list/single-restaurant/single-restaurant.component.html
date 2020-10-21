@@ -1,0 +1,386 @@
+<!--<div class="row">
+  <div class="col-xs-12">
+    <img style="max-width:200px;" *ngIf="restaurant.logo" [src]="restaurant.logo">
+    <h1>{{ restaurant.storeName }}</h1>
+    <h3>{{ restaurant.desc }}</h3>
+    <p>{{ restaurant.address }}</p>
+    <p>{{ restaurant.phoneNumber }}</p>
+    <p>{{ restaurant.email }}</p>
+    <agm-map [latitude]="restaurant.lat" [longitude]="restaurant.lng">
+      <agm-marker [latitude]="restaurant.lat" [longitude]="restaurant.lng"></agm-marker>
+    </agm-map>
+    <p>{{ restaurant.facebookPage }}</p>
+    <p>{{ restaurant.instagramPage }}</p>
+    <p>{{ restaurant.twitterPage }}</p>
+    <p>{{ restaurant.pinterestPage }}</p>
+    <p>{{ restaurant.nbrTable }}</p>
+    <button class="btn btn-default" (click)="onBack()">Retour</button>
+    <button class="btn btn-success" (click)="onNewCategorie()">Nouvelle Catégorie</button>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Vos Catégories</h2>
+    <div class="list-group row" *ngFor="let categorie of categories; let i = index">
+      <div *ngIf="categorie.id_restaurant === id">
+        <div class="col-md-10">
+          <button class="list-group-item" (click)="onViewCategorie(categorie.key)">
+            <h3 class="list-group-item-heading">
+              {{ categorie.title }}
+            </h3>
+            <p class="list-group-item-text">{{ categorie.desc }}</p>
+          </button>
+        </div>
+        <div class="col-md-2" style="text-align: right">
+          <button class="btn btn-warning" (click)="editCategorie($event,i)">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <button class="btn btn-danger pull-right"
+                  mwlConfirmationPopover
+                  [popoverTitle] ="popoverTitle"
+                  [popoverMessage]="popoverMessage"
+                  placement="left"
+                  (confirm)="onDeleteCategorie(categorie.key,categorie.thumb)"
+                  (cancel)="cancelClicked = true">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
+          <button class="btn btn-info" *ngIf="editState && categorieToEdit == i" (click)="clearState()">
+            <span class="glyphicon glyphicon-resize-small"></span>
+          </button>
+        </div>
+        <div class="col-md-10" *ngIf="editState && categorieToEdit == i" style="background-color: orange">
+          <form [formGroup]="categorieForm" (ngSubmit)="updateCategorie(categorie)">
+            <div class="form-group">
+              <input type="text" placeholder="Titre" id="title" class="form-control" formControlName="title" [(ngModel)]="categorie.title">
+            </div>
+            <div class="form-group">
+              <textarea type="text" placeholder="Description" id="desc" class="form-control" formControlName="desc" [(ngModel)]="categorie.desc"></textarea>
+            </div>
+            <div class="form-group">
+              <img style="max-width:50px;" *ngIf="categorie.thumb" [src]="categorie.thumb">
+              <input type="file" (change)="detectFiles($event)"
+                     class="form-control" accept="image/*">
+              <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+            </div>
+            <button class="btn btn-success" [disabled]="categorieForm.invalid || fileIsUploading"
+                    type="submit">Modifier
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- Start détail-->
+<div class="container-fluid mt--7">
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/grid']"> <p class="h5" ><span class="fa fa-arrow-right"><a> Retour vers mes espaces</a></span></p></a>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow"  style="margin-top: 30px">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image" >
+              <a>
+                <img *ngIf="restaurant.logo" [src]="restaurant.logo"   style="border-radius: 30%;"  style="margin-top: 30px; max-width:200px; height: 100px; text-align: center">
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body pt-0 pt-md-4">
+
+          <div class="text-center">
+            <h3>
+              {{ restaurant.storeName }}
+            </h3>
+            <div class="h5 font-weight-300" style="height: 15px">
+              <i class="ni location_pin mr-2"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <agm-map [latitude]="restaurant.lat" [longitude]="restaurant.lng">
+        <agm-marker [latitude]="restaurant.lat" [longitude]="restaurant.lng"></agm-marker>
+      </agm-map>
+    </div>
+    <div class="col-xl-6 order-xl-1" style="margin-top: 20px">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Détail Restaurant</h3>
+            </div>
+
+          </div>
+        </div>
+        <div class="card-body" style="background-color: #ffffff; color: #0e3b57">
+          <form>
+
+            <div class="pl-lg-4" >
+              <div class="row" >
+                <div class="col-lg-6" >
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username"><b>Nom</b></label>
+                    <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ restaurant.storeName }}" disabled="">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email"><b>Description</b></label>
+                    <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="{{ restaurant.desc }}" disabled="">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <span class="fa fa-map-marker"></span> <label class="form-control-label" for="input-address" style="margin-left: 10px"> <b>Address</b></label>
+                    <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="{{ restaurant.address }}" type="text" disabled="">
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <span class="fa fa-2x fa-mobile"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px"><b> Mobile</b></label>
+                    <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ restaurant.phoneNumber }}" disabled="" />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <span class="fa fa-2x fa-facebook"></span> <label class="form-control-label" for="input-last-name"style="margin-left: 10px" ><b> Facebook</b></label>
+                    <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ restaurant.facebookPage }}" disabled="" />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <span class="fa fa-2x fa-twitter"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px"><b> Twitter</b></label>
+                    <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ restaurant.twitterPage }}" disabled="" />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <span class="fa fa-2x fa-instagram"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px"><b> Instagram</b></label>
+                    <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ restaurant.instagramPage }}" disabled="" />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <span class="fa fa-2x fa-pinterest"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px"><b> Pintrest</b></label>
+                    <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ restaurant.pinterestPage }}" disabled="" />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <span class="fa fa-2x fa-at"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px"><b> Email</b></label>
+                    <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ restaurant.email }}" disabled />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End détail-->
+  <div class="card">
+    <!-- Card header -->
+
+
+    <div class="card-header border-0">
+      <div class="row">
+        <div class="col-6">
+          <h3 class="mb-0">Gestion des Menus</h3>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Card body -->
+
+
+    <!-- test -->
+
+    <div class="card">
+      <!-- Card header -->
+
+      <div class="card-header border-0 bgglobal">
+        <div class="row bgdarken" >
+          <div class="col-6">
+            <h3 class="mb-0">Liste des catégories</h3>
+          </div>
+          <div class="col-6 text-right">
+            <a  class="btn btn-sm btn-primary btn-round btn-icon bglight" data-toggle="tooltip" title="Ajouter" (click)="onNewCategorie()">
+              <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+              <span class="btn-inner--text">Ajouter Une nouvelle catégorie</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Light table -->
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush table-striped">
+          <thead class="bglight">
+          <tr>
+            <th><b><u>Action</u></b></th>
+            <th>Image</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Etat</th>
+          </tr>
+          </thead>
+          <tbody *ngFor="let categorie of categories; let i = index">
+          <tr *ngIf="categorie.id_restaurant === id" class="bgglobal">
+            <td class="table-actions">
+              <a [routerLink]="" class="table-action" data-toggle="tooltip" title="Modifier" (click)="editCategorie($event,i)">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a [routerLink]="['/categories/view/:id']" class="table-action" data-toggle="tooltip" title="Détails" style="margin-left: 10px" (click)="onViewCategorie(categorie.key)">
+                <i class="fa fa-search"></i>
+              </a>
+              <a [routerLink]="" class="table-action table-action-delete" data-toggle="tooltip" title="Supprimer" style="margin-left: 10px; color: red" mwlConfirmationPopover
+                 [popoverTitle] ="popoverTitle"
+                 [popoverMessage]="popoverMessage"
+                 placement="top-left"
+                 (confirm)="onDeleteCategorie(categorie.key,categorie.thumb)"
+                 (cancel)="cancelClicked = true">
+                <i class="fa fa-trash"></i>
+              </a>
+              <button class="btn btn-info" data-toggle="tooltip" title="Retour" *ngIf="editState && categorieToEdit == i" (click)="clearState()" style="margin-left: 10px">
+                <i class="fa fa-search-minus"></i>
+              </button>
+            </td>
+
+            <td>
+              <img [src]="categorie.thumb" width="50px">
+            </td>
+            <td class="table-user">
+
+              <b>{{ categorie.title }}</b>
+            </td>
+            <td>
+              <span class="text-muted">{{ categorie.desc }} </span>
+            </td>
+
+            <td>
+              <div *ngIf="categorie.etat =='true'">
+              <button class="btn btn-success">
+                 {{"ON"}}
+              </button>
+
+              </div>
+              <div *ngIf="categorie.etat =='false'">
+                <button class="btn btn-danger">
+                  {{"OFF"}}
+                </button>
+                <!--<button class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}"  (click)="toggleMeridian()" >
+                  {{meridian ? "Cacher"  : "Afficher"}}
+                </button>-->
+
+              </div>
+            </td>
+
+          </tr>
+          <tr *ngIf="editState && categorieToEdit == i" class="bgglobal">
+          <td colspan="5">
+            <div class="col-xl-12 order-xl-1" style="margin-top: 20px">
+              <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+            <div class="card-body" style="background-color: #ffffff; color: #0e3b57">
+            <form [formGroup]="categorieForm" (ngSubmit)="updateCategorie(categorie)">
+              <div class="row">
+                <div class="col-lg-6">
+              <div class="form-group">
+                <label for="title" class="col-md-6 col-form-label form-control-label">Titre</label>
+                <input type="text" placeholder="Titre" id="title" class="form-control" formControlName="title" [ngClass]="{'is-invalid':categorieForm.get('title').invalid && categorieForm.get('title').touched}" [(ngModel)]="categorie.title">
+                <div *ngIf="categorieForm.get('title').invalid && categorieForm.get('title').touched" class="invalid-feedback">
+                  <div *ngIf="categorieForm.get('title').errors.required">Title is required</div>
+                </div>
+              </div>
+                </div>
+                  <div class="col-lg-6">
+              <div class="form-group">
+                <label for="desc" class="col-md-6 col-form-label form-control-label">Description</label>
+                <input type="text" placeholder="Description" id="desc" class="form-control" formControlName="desc" [ngClass]="{'is-invalid':categorieForm.get('desc').invalid && categorieForm.get('desc').touched}" [(ngModel)]="categorie.desc">
+                <div *ngIf="categorieForm.get('desc').invalid && categorieForm.get('desc').touched" class="invalid-feedback">
+                  <div *ngIf="categorieForm.get('desc').errors.required">Description is required</div>
+                </div>
+              </div>
+                  </div>
+              </div>
+                <div class="row">
+                  <div class="col-lg-12">
+              <div class="form-group">
+                <label for="etat" class="col-md-2 col-form-label form-control-label">Etat</label>
+                <select placeholder="Etat" class="form-control" formControlName="etat" [(ngModel)]="categorie.etat" id="etat" >
+                <option value="true">true</option>
+                <option value="false">false</option>
+                </select>
+              </div>
+                  </div>
+                  <div class="col-lg-12">
+              <div class="form-group">
+                <img style="max-width:50px;" *ngIf="categorie.thumb" [src]="categorie.thumb">
+                <input type="file" (change)="detectFiles($event)"
+                       class="form-control" accept="image/*">
+                <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+              </div>
+                  </div>
+                </div>
+              <button class="btn btn-success" [disabled]="categorieForm.invalid || fileIsUploading"
+                      type="submit" style="margin-left: 400px">Modifier
+              </button>
+            </form>
+          </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer py-4 bgglobal">
+        <nav aria-label="...">
+          <ul class="pagination justify-content-end mb-0">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">
+                <i class="fa fa-angle-left"></i>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+            <li class="bgdarken">
+              <a class="page-link bgdarken" >1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">
+                <i class="fa fa-angle-right"></i>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+    </div>
+    <!-- end test -->
+  </div>
+</div>
+

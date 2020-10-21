@@ -1,0 +1,312 @@
+<!--<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2>Enregistrer une nouvelle Plat</h2>
+    <form [formGroup]="platForm" (ngSubmit)="onSavePlat()">
+      <div class="form-group">
+        <label for="title">Titre</label>
+        <input type="text" id="title" class="form-control" formControlName="title" [(ngModel)]="plat.title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="body">Description</label>
+        <textarea id="body" class="form-control" formControlName="body" [(ngModel)]="plat.body" name="title" required></textarea>
+      </div>
+      <div class="form-group">
+        <h4>Ajouter une photo</h4>
+        <input type="file" (change)="detectFiles($event)"
+               class="form-control" accept="image/*">
+        <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+      </div>
+
+      //standard options
+      <img src="https://cdn.pixabay.com/photo/2014/03/25/17/00/plus-297823_960_720.png" width="30px" alt="" (click)="addStandardOptions()">
+      <div class="row" formArrayName="standardOptions">
+        <div class="col-md-12" *ngFor="let group of standardOptionsArray.controls; let i = index;" [formGroupName]="i">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="form-group">
+                <label for="nameS">Option</label>
+                <input type="text" id="nameS" class="form-control" formControlName="nameS" name="nameS" required>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <label for="selectedS">selected</label>
+                <input type="text" id="selectedS" class="form-control" formControlName="selectedS" name="selectedS" required>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group control-buttons">
+                <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removeStandardOptions()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      //Extra options
+      <img src="https://cdn.pixabay.com/photo/2014/03/25/17/00/plus-297823_960_720.png" width="30px" alt="" (click)="addExtraOptions()">
+      <div class="row" formArrayName="extraOptions">
+        <div class="col-md-12" *ngFor="let group of extraOptionsArray.controls; let i = index;" [formGroupName]="i">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="nameE">Extra</label>
+                <input type="text" id="nameE" class="form-control" formControlName="nameE">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="selectedE">selected</label>
+                <input type="text" id="selectedE" class="form-control" formControlName="selectedE">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="valueE">Value</label>
+                <input type="text" id="valueE" class="form-control" formControlName="valueE">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group control-buttons">
+                <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removeExtraOptions()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      //Size
+      <img src="https://cdn.pixabay.com/photo/2014/03/25/17/00/plus-297823_960_720.png" width="30px" alt="" (click)="addPrice()">
+      <div class="row" formArrayName="price">
+        <div class="col-md-12" *ngFor="let group of priceArray.controls; let i = index;" [formGroupName]="i">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="nameP">Size</label>
+                <input type="text" id="nameP" class="form-control" formControlName="nameP">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="valueP">Value</label>
+                <input type="text" id="valueP" class="form-control" formControlName="valueP">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="currencyP">Currency</label>
+                <input type="text" id="currencyP" class="form-control" formControlName="currencyP">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group control-buttons">
+                <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removePrice()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-success" [disabled]="platForm.invalid || fileIsUploading" type="submit">
+        Enregistrer
+      </button>
+
+    </form>
+  </div>
+</div>-->
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/detail-categorie']"> <p class="h5" (click)="onBack()"><span class="fa fa-arrow-left"><a> Retour vers la liste des categories</a></span></p></a>
+
+    </div>
+  </div>
+
+  <!-- Dark table -->
+
+
+  <!-- formulaire ajout -->
+
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header">
+      <h3 class="mb-0">Ajouter un nouveau plat</h3>
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+      <form [formGroup]="platForm" (ngSubmit)="onSavePlat()">
+        <div class="form-group row">
+          <label for="title" class="col-md-2 col-form-label form-control-label" >Titre</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="title" [ngClass]="{'is-invalid':platForm.get('title').invalid && platForm.get('title').touched}"    [(ngModel)]="plat.title" name="title" required id="title">
+            <div *ngIf="platForm.get('title').invalid && platForm.get('title').touched" class="invalid-feedback">
+            <div *ngIf="platForm.get('title').errors.required">Title is required</div>
+          </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="body" class="col-md-2 col-form-label form-control-label">Description</label>
+          <div class="col-md-10">
+            <textarea class="form-control" class="form-control" formControlName="body" [ngClass]="{'is-invalid':platForm.get('body').invalid && platForm.get('body').touched}"[(ngModel)]="plat.body" name="title" required id="body"  > </textarea>
+            <div *ngIf="platForm.get('body').invalid && platForm.get('body').touched" class="invalid-feedback">
+              <div *ngIf="platForm.get('body').errors.required">Description is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label  class="col-md-2 col-form-label form-control-label">Image</label>
+          <div class="col-md-10">
+            <input type="file" (change)="detectFiles($event)"
+                   class="form-control" accept="image/*">
+            <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="etat" class="col-md-2 col-form-label form-control-label">Etat</label>
+          <div class="col-md-10">
+            <select placeholder="Etat" class="form-control" formControlName="etat" [(ngModel)]="plat.etat" id="etat" >
+              <option value="true">true</option>
+              <option value="false">false</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="example-url-input" class="col-md-0 col-form-label form-control-label">Option   </label>
+            <button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50% ; margin-left: 15px" (click)="addStandardOptions()"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="row" formArrayName="standardOptions">
+          <div class="col-md-12" *ngFor="let group of standardOptionsArray.controls; let i = index;" [formGroupName]="i">
+            <div class="row">
+              <div class="col-md-10">
+                <div class="form-group">
+                  <input type="text" id="nameS" class="form-control" formControlName="nameS" name="nameS" required>
+                </div>
+              </div>
+                <div class="col-md-2">
+                  <button class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+                    {{meridian ? "ON" : "OFF"}}
+                  </button>
+                  <button  type="button" class="btn btn-danger btn-circle btn-sm mama" style="border-radius: 50% ; margin-left: 10px " ><i class="fa fa-minus"(click)="removeStandardOptions(i)"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="example-url-input" class="col-md-0 col-form-label form-control-label">Extra   </label>
+            <button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50% ; margin-left: 27px" (click)="addExtraOptions()"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="row" formArrayName="extraOptions">
+          <div class="col-md-12" *ngFor="let group of extraOptionsArray.controls; let i = index;" [formGroupName]="i">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <input type="text" id="nameE" class="form-control" formControlName="nameE" name="nameE" required>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                    </div>
+                    <div class="input-group-append">
+                      <input type="number" id="valueE" class="form-control" formControlName="valueE">
+                      <span class="input-group-text"><small class="font-weight-bold">MAD</small></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+                  {{meridian ? "ON" : "OFF"}}
+                </button>
+                <button  type="button" class="btn btn-danger btn-circle btn-sm mama" style="border-radius: 50% ; margin-left: 10px " ><i class="fa fa-minus"(click)="removeExtraOptions(i)"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="example-url-input" class="col-md-0 col-form-label form-control-label">Taille   </label>
+            <button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50% ; margin-left: 27%" (click)="addPrice()"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="row" formArrayName="price">
+          <div class="col-md-12" *ngFor="let group of priceArray.controls; let i = index;" [formGroupName]="i">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <input type="text" id="nameP" class="form-control" formControlName="nameP" name="nameP" required>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                    </div>
+                    <div class="input-group-append">
+                      <input type="number" id="valueP" class="form-control" formControlName="valueP">
+                      <span class="input-group-text"><small class="font-weight-bold">MAD</small></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+                  {{meridian ? "ON" : "OFF"}}
+                </button>
+                <button  type="button" class="btn btn-danger btn-circle btn-sm mama" style="border-radius: 50% ; margin-left: 10px " ><i class="fa fa-minus"(click)="removePrice(i)"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+
+        <button type="submit" class="btn btn-success btn-lg btn-block">Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- end formulaire ajout -->
+
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-6">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+        </li>
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+        </li>
+        <li class="nav-item">
+          <a href="http://blog.creative-tim.com/" class="nav-link" target="_blank">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+

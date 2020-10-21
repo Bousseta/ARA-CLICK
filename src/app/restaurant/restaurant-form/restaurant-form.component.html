@@ -1,0 +1,224 @@
+<!--<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2>Enregistrer un nouveau restaurant</h2>
+    <form [formGroup]="restaurantForm" (ngSubmit)="onSaveRestaurant()">
+      <div class="form-group">
+        <label for="storeName">Nom du restaurant</label>
+        <input type="text" id="storeName"
+               class="form-control" formControlName="storeName" [(ngModel)]="restaurant.storeName" name="storeName" required>
+      </div>
+      <div class="form-group">
+        <label for="desc">Description</label>
+        <textarea type="text" id="desc"
+               class="form-control" formControlName="desc" [(ngModel)]="restaurant.desc" name="desc" required>
+        </textarea>
+      </div>
+      <div class="form-group">
+        <label for="address">Adresse</label>
+        <textarea id="address"
+                  class="form-control" formControlName="address" [(ngModel)]="restaurant.address" name="address" required>
+        </textarea>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Tél</label>
+        <input type="text" id="phoneNumber"
+               class="form-control" formControlName="phoneNumber" [(ngModel)]="restaurant.phoneNumber" name="phoneNumber" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email"
+               class="form-control" formControlName="email" [(ngModel)]="restaurant.email" name="email" required>
+      </div>
+      <agm-map [latitude]="lat1" [longitude]="lng1" (mapClick)="onChoseLocation($event)">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+      </agm-map>
+      <div class="form-group">
+        <label for="facebookPage">Facebook</label>
+        <input type="text" id="facebookPage"
+               class="form-control" formControlName="facebookPage" [(ngModel)]="restaurant.facebookPage" name="facebookPage">
+      </div>
+      <div class="form-group">
+        <label for="instagramPage">Instargam</label>
+        <input type="text" id="instagramPage"
+               class="form-control" formControlName="instagramPage" [(ngModel)]="restaurant.instagramPage" name="instagramPage">
+      </div>
+      <div class="form-group">
+        <label for="twitterPage">Twitter</label>
+        <input type="text" id="twitterPage"
+               class="form-control" formControlName="twitterPage" [(ngModel)]="restaurant.twitterPage" name="twitterPage">
+      </div>
+      <div class="form-group">
+        <label for="pinterestPage">Pinterest</label>
+        <input type="text" id="pinterestPage"
+               class="form-control" formControlName="pinterestPage" [(ngModel)]="restaurant.pinterestPage" name="pinterestPage">
+      </div>
+      <div class="form-group">
+        <label for="nbrTable">Nombre table</label>
+        <input type="text" id="nbrTable"
+               class="form-control" formControlName="nbrTable" [(ngModel)]="restaurant.nbrTable" name="nbrTable">
+      </div>
+      <div class="form-group">
+        <h4>Ajouter une photo</h4>
+        <input type="file" (change)="detectFiles($event)"
+               class="form-control" accept="image/*">
+        <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+      </div>
+      <button class="btn btn-success" [disabled]="restaurantForm.invalid || fileIsUploading"
+              type="submit">Enregistrer
+      </button>
+
+    </form>
+  </div>
+</div>-->
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/grid']"> <p class="h5" ><span class="fa fa-arrow-left" ><a> Retour vers la liste des restaurants</a></span></p></a>
+
+    </div>
+  </div>
+  <!-- Table -->
+  <!-- Dark table -->
+  <!-- formulaire ajout -->
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header">
+      <h3 class="mb-0">Ajouter un nouveau Restaurant</h3>
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+      <form [formGroup]="restaurantForm" (ngSubmit)="onSaveRestaurant()">
+        <div class="form-group row">
+          <label for="storeName" class="col-md-2 col-form-label form-control-label">Nom du restaurant</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="storeName" [ngClass]="{'is-invalid':restaurantForm.get('storeName').invalid && restaurantForm.get('storeName').touched}" [(ngModel)]="restaurant.storeName" name="storeName" required id="storeName">
+            <div *ngIf="restaurantForm.get('storeName').invalid && restaurantForm.get('storeName').touched" class="invalid-feedback">
+              <div *ngIf="restaurantForm.get('storeName').errors.required">StoreName is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="desc" class="col-md-2 col-form-label form-control-label">Description</label>
+          <div class="col-md-10">
+            <textarea class="form-control" formControlName="desc" [ngClass]="{'is-invalid':restaurantForm.get('desc').invalid && restaurantForm.get('desc').touched}"  [(ngModel)]="restaurant.desc" name="desc" required id="desc"  > </textarea>
+            <div *ngIf="restaurantForm.get('desc').invalid && restaurantForm.get('desc').touched" class="invalid-feedback">
+              <div *ngIf="restaurantForm.get('desc').errors.required">Description is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="logo" class="col-md-2 col-form-label form-control-label">Logo</label>
+          <div class="col-md-10">
+            <input type="file" (change)="detectFiles($event)"
+                   class="form-control"  accept="image/*" id="logo">
+          </div>
+          <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+        </div>
+
+        <!--<div class="form-group row">
+          <label for="example-url-input" class="col-md-2 col-form-label form-control-label"><span class="fa fa-wheelchair" style="font-size: 40px"></span>Site accessible aux personnes à mobilité réduite</label>
+          <div class="col-md-10">
+
+            <select class="form-control" id="exampleFormControlSelect1">
+              <option>Oui</option>
+              <option>Non</option>
+
+            </select>
+          </div>
+        </div>-->
+
+        <div class="form-group row">
+          <label for="address" class="col-md-2 col-form-label form-control-label">Adresse</label>
+          <div class="col-md-10">
+            <textarea class="form-control" id="address" [ngClass]="{'is-invalid':restaurantForm.get('address').invalid && restaurantForm.get('address').touched}" formControlName="address" [(ngModel)]="restaurant.address" name="address" required >
+            </textarea>
+            <div *ngIf="restaurantForm.get('address').invalid && restaurantForm.get('address').touched" class="invalid-feedback">
+              <div *ngIf="restaurantForm.get('address').errors.required">Address is required</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="phoneNumber" class="col-md-2 col-form-label form-control-label">Phone</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="phoneNumber" [ngClass]="{'is-invalid':restaurantForm.get('phoneNumber').invalid && restaurantForm.get('phoneNumber').touched}" [(ngModel)]="restaurant.phoneNumber" name="phoneNumber" required id="phoneNumber">
+            <div *ngIf="restaurantForm.get('phoneNumber').invalid && restaurantForm.get('phoneNumber').touched" class="invalid-feedback">
+              <div *ngIf="restaurantForm.get('phoneNumber').errors.required">Phone number is required</div>
+              <div *ngIf="restaurantForm.get('phoneNumber').errors.pattern">Phone composition not correct</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+          <label for="email" class="col-md-2 col-form-label form-control-label">Email</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="email" [ngClass]="{'is-invalid':restaurantForm.get('email').invalid && restaurantForm.get('email').touched}"  [(ngModel)]="restaurant.email" name="email" required id="email">
+            <div *ngIf="restaurantForm.get('email').invalid && restaurantForm.get('email').touched" class="invalid-feedback">
+              <div *ngIf="restaurantForm.get('email').errors.required">Email is required</div>
+              <div *ngIf="restaurantForm.get('email').errors.email">Email must be a correct address</div>
+            </div>
+          </div>
+        </div>
+
+        <agm-map [latitude]="lat1" [longitude]="lng1" (mapClick)="onChoseLocation($event)">
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
+
+        <div class="form-group row">
+          <label for="nbrTable" class="col-md-2 col-form-label form-control-label">Nombres de tables</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="nbrTable" [ngClass]="{'is-invalid':restaurantForm.get('nbrTable').invalid && restaurantForm.get('nbrTable').touched}" [(ngModel)]="restaurant.nbrTable" name="nbrTable" id="nbrTable">
+            <div *ngIf="restaurantForm.get('nbrTable').invalid && restaurantForm.get('nbrTable').touched" class="invalid-feedback">
+              <div *ngIf="restaurantForm.get('nbrTable').errors.required">Number of table is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="facebookPage" class="col-md-2 col-form-label form-control-label">Facebook</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="facebookPage" [(ngModel)]="restaurant.facebookPage" name="facebookPage" id="facebookPage">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="instagramPage" class="col-md-2 col-form-label form-control-label">Instagram</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="instagramPage" [(ngModel)]="restaurant.instagramPage" name="instagramPage" id="instagramPage">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success " [disabled]="restaurantForm.invalid">Enregistrer</button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end formulaire ajout -->
+<footer class="footer">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-6">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+        </li>
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+        </li>
+        <li class="nav-item">
+          <a href="http://blog.creative-tim.com/" class="nav-link" target="_blank">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+

@@ -1,0 +1,52 @@
+<script src="xepOnline.jqPlugin.js"></script>
+<div class="row" style="margin-top: 10px">
+  <div class="col-xl-6 text-xs-center" >
+    <a [routerLink]="['/dashboard']"> <p class="h4" ><span class="fa fa-arrow-left" (click)="onBack()"><b> Retour vers le tableau de bord</b></span></p></a>
+
+  </div>
+</div>
+<div class="container" style="text-align: center ; margin-top: 20px">
+  <h2>Vos QRcode</h2>
+  <button (click)="captureScreen()">Télécharger PDF</button>
+  <div id="content">
+    <div *ngFor="let restaurant of restaurants; let i = index">
+      <div *ngIf="id_restaurant == restaurant.key">
+        Nombre Table : {{restaurant.nbrTable}}
+        <div class="row">
+          <div class="col-md-4"  *ngFor="let ii of arrayOne(+restaurant.nbrTable);">
+            <img src="../../../assets/theme1.jpeg" alt="" width="100%" >
+            <div style="margin-top: -300px; margin-bottom: 100px">
+              <img style="max-width:100px;" *ngIf="restaurant.logo" [src]="restaurant.logo">
+              <h4>{{restaurant.storeName}}</h4>
+              <ngx-qrcode qrc-value="{{id_restaurant}}-{{ii+1}}"> </ngx-qrcode>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer -->
+<footer class="footer">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-6">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+        </li>
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+        </li>
+
+
+      </ul>
+    </div>
+  </div>
+</footer>
+
+

@@ -1,0 +1,63 @@
+<!--<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2>Connexion</h2>
+    <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Adresse mail</label>
+        <input type="text"
+               id="email"
+               class="form-control"
+               formControlName="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password"
+               id="password"
+               class="form-control"
+               formControlName="password">
+      </div>
+      <button class="btn btn-primary"
+              type="submit"
+              [disabled]="signinForm.invalid">Connexion</button>
+    </form>
+    <p class="text-danger">{{ errorMessage }}</p>
+  </div>
+</div>-->
+<div class="login-page">
+  <div class="row justify-content-md-center input-lg">
+    <div class="col-md-4">
+      <img src="assets/images/logo.png" width="150px" class="user-avatar" />
+      <h1>Authentification</h1>
+      <form [formGroup]="signinForm"(ngSubmit)="onSubmit()">
+        <div class="form-content">
+          <div class="form-group">
+            <input type="text" class="form-control input-underline " id="email"
+                   formControlName="email" [ngClass]="{'is-invalid':signinForm.get('email').invalid && signinForm.get('email').touched}" placeholder="{{ 'Email'}}">
+            <div *ngIf="signinForm.get('email').invalid && signinForm.get('email').touched" class="invalid-feedback">
+              <div *ngIf="signinForm.get('email').errors.required">Email is required</div>
+              <div *ngIf="signinForm.get('email').errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="password" class="form-control input-underline " id="password"
+                   formControlName="password" [ngClass]="{'is-invalid':signinForm.get('password').invalid && signinForm.get('password').touched}" placeholder="{{ 'Password'}}" >
+            <div *ngIf="signinForm.get('password').invalid && signinForm.get('password').touched" class="invalid-feedback">
+              <div *ngIf="signinForm.get('password').errors.required">Password is required</div>
+              <div *ngIf="signinForm.get('password').errors.minlength">Password must be a letaset 6 charector</div>
+            </div>
+
+          </div>
+        </div>
+        <button class="btn rounded-btn"
+                type="submit" [disabled]="signinForm.invalid" style="margin-top: 10px"
+        >S'authentifier</button>
+        <button class="btn rounded-btn"
+                type="submit" [routerLink]="['/auth/signup']" style="margin-left: 10px ; margin-top: 10px"
+        >S'enregistrer</button>
+      </form>
+      <p class="text-danger">{{ errorMessage |translate}}</p>
+    </div>
+  </div>
+</div>
+

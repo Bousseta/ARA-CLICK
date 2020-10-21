@@ -1,0 +1,152 @@
+<!--<div class="row">
+  <div class="col-xs-12">
+    <img style="max-width:200px;" *ngIf="serveur.photo" [src]="serveur.photo">
+    <h1>{{ serveur.nom }}</h1>
+    <div *ngFor="let restaurant of restaurants; let i = index">
+      <h3 class="list-group-item-text" *ngIf="serveur.id_restaurant == i">{{ restaurant.storeName }}</h3>
+    </div>
+    <p>{{ serveur.cin }}</p>
+    <p>{{ serveur.adress }}</p>
+    <p>{{ serveur.mobile }}</p>
+    <p>{{ serveur.fixe }}</p>
+    <p>{{ serveur.email }}</p>
+    <p>{{ serveur.mdp }}</p>
+    <button class="btn btn-default" (click)="onBack()">Retour</button>
+  </div>
+</div>-->
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="container-fluid mt--7">
+    <div class="row" style="margin-top: 10px">
+      <div class="col-xl-6 text-xs-center" >
+        <a [routerLink]="['/serveurs']"> <p class="h5"><span class="fa fa-arrow-left" (click)="onBack()"><a> Retour vers la liste des serveurs</a></span></p></a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+          <div class="row justify-content-center">
+            <div class="col-lg-6 order-lg-2">
+              <div class="card-profile-image">
+                <a href="#">
+                  <img style="max-width:100px;" *ngIf="serveur.photo" [src]="serveur.photo" class="rounded-circle" style="width:100px; text-align: center" >
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body pt-0 pt-md-4">
+            <div class="row">
+              <div class="col">
+                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                </div>
+              </div>
+            </div>
+            <div *ngFor="let restaurant of restaurants; let i = index">
+              <h3 class="list-group-item-text" *ngIf="serveur.id_restaurant == i">{{ restaurant.storeName }}</h3>
+            </div>
+            <div class="text-center">
+              <br>
+              <h3>
+                {{ serveur.nom}}
+              </h3>
+              <div class="h5 font-weight-300">
+                <i class="ni location_pin mr-2"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+      <div class="col-xl-8 order-xl-1">
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Détail Serveur</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body" style="background-color: #ffffff; color: #0e3b57">
+            <form>
+
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <span class="fa fa-2x fa-mug"></span> <label class="form-control-label" for="input-username" style="margin-left: 10px"><b>   Nom complet</b></label>
+                      <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ serveur.nom }}" disabled="">
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email" style="margin-left: 10px"><b>  CIN</b></label>
+                      <input type="text" class="form-control form-control-alternative" placeholder="" value="{{ serveur.cin }}" disabled="">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <span class="fa fa-2x fa-map-marker"></span> <label class="form-control-label" for="input-address" style="margin-left: 10px"> <b> Address</b></label>
+                      <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="{{ serveur.adress }}" type="text" disabled="">
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <span class="fa fa-2x fa-mobile"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px"><b> Mobile</b></label>
+                      <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ serveur.mobile }}" disabled="" />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <span class="fa fa-2x fa-phone"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px"><b> Fixe</b></label>
+                      <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ serveur.fixe }}" disabled="" />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <span class="fa fa-2x fa-at"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px"> <b>  Email</b></label>
+                      <input type="Email" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ serveur.email }}" disabled="" />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <span class="fa fa-2x fa-eye"></span> <label class="form-control-label" for="input-last-name" style="margin-left: 10px">  <b> Mot de passe</b></label>
+                      <input type="password" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ serveur.mdp }}" disabled="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End détail-->
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="row align-items-center justify-content-xl-between">
+        <div class="col-xl-6">
+          <div class="copyright text-center text-xl-left text-muted">
+            &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+            <li class="nav-item">
+              <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+            </li>
+            <li class="nav-item">
+              <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+            </li>
+
+
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>

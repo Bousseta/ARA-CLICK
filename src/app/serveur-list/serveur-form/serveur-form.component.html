@@ -1,0 +1,208 @@
+<!--<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2>Enregistrer un nouveau Serveur</h2>
+    <form [formGroup]="serveurForm" (ngSubmit)="onSaveServeur()">
+      <div class="form-group">
+        <label for="sel1">Select Restaurant:</label>
+        <select class="form-control" id="sel1" formControlName="id_restaurant" required>
+          <option *ngFor="let restaurant of restaurants; let i = index"  [ngValue]="restaurant.key">{{restaurant.storeName}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="nom">Nom du Serveur</label>
+        <input type="text" id="nom"
+               class="form-control" formControlName="nom" [(ngModel)]="serveur.nom" required>
+      </div>
+      <div class="form-group">
+        <label for="cin">CIN</label>
+        <input type="text" id="cin"
+                  class="form-control" formControlName="cin" [(ngModel)]="serveur.cin" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Adresse</label>
+        <input id="address"
+                  class="form-control" formControlName="address" [(ngModel)]="serveur.adress" >
+      </div>
+      <div class="form-group">
+        <label for="mobile">Mobile</label>
+        <input type="text" id="mobile"
+               class="form-control" formControlName="mobile" [(ngModel)]="serveur.mobile" >
+      </div>
+      <div class="form-group">
+        <label for="fixe">Fixe</label>
+        <input type="text" id="fixe"
+               class="form-control" formControlName="fixe" [(ngModel)]="serveur.fixe">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email"
+               class="form-control" formControlName="email" [(ngModel)]="serveur.email" required>
+      </div>
+      <div class="form-group">
+        <label for="mdp">Mot de passe</label>
+        <input type="email" id="mdp"
+               class="form-control" formControlName="mdp" [(ngModel)]="serveur.mdp" required>
+      </div>
+      <div class="form-group">
+        <h4>Ajouter une photo</h4>
+        <input type="file" (change)="detectFiles($event)"
+               class="form-control" accept="image/*">
+        <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+      </div>
+      <button class="btn btn-success" [disabled]="serveurForm.invalid || fileIsUploading"
+              type="submit">Enregistrer
+      </button>
+
+    </form>
+  </div>
+</div>-->
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/liste-serveur']"> <p class="h5" ><span class="fa fa-arrow-left" (click)="onBack()"><a> Retour vers la liste des serveurs</a></span></p></a>
+
+    </div>
+  </div>
+  <!-- Table -->
+  <!-- Dark table -->
+  <!-- formulaire ajout -->
+
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header">
+      <h3 class="mb-0">Ajouter un nouveau Serveur</h3>
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+      <form [formGroup]="serveurForm" (ngSubmit)="onSaveServeur()">
+        <div class="form-group row">
+          <label for="sel1" class="col-md-2 col-form-label form-control-label">Select Restaurant:</label>
+          <div class="col-md-10">
+          <select class="form-control" id="sel1" formControlName="id_restaurant" required>
+            <option *ngFor="let restaurant of restaurants; let i = index"  [ngValue]="restaurant.key">{{restaurant.storeName}}</option>
+          </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="nom" class="col-md-2 col-form-label form-control-label">Nom complet</label>
+          <div class="col-md-10">
+            <input type="text" id="nom"
+                   class="form-control" formControlName="nom" [ngClass]="{'is-invalid':serveurForm.get('nom').invalid && serveurForm.get('nom').touched}" [(ngModel)]="serveur.nom" required>
+
+            <div *ngIf="serveurForm.get('nom').invalid && serveurForm.get('nom').touched" class="invalid-feedback">
+              <div *ngIf="serveurForm.get('nom').errors.required">Name is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="cin" class="col-md-2 col-form-label form-control-label">CIN</label>
+          <div class="col-md-10">
+            <input type="text" id="cin"
+                   class="form-control" formControlName="cin" [ngClass]="{'is-invalid':serveurForm.get('cin').invalid && serveurForm.get('cin').touched}" [(ngModel)]="serveur.cin" required>
+            <div *ngIf="serveurForm.get('cin').invalid && serveurForm.get('cin').touched" class="invalid-feedback">
+              <div *ngIf="serveurForm.get('cin').errors.required">CIN is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="address" class="col-md-2 col-form-label form-control-label">Adresse</label>
+          <div class="col-md-10">
+            <input id="address"
+                   class="form-control" formControlName="address" [ngClass]="{'is-invalid':serveurForm.get('address').invalid && serveurForm.get('address').touched}"  [(ngModel)]="serveur.adress" required>
+            <div *ngIf="serveurForm.get('address').invalid && serveurForm.get('address').touched" class="invalid-feedback">
+              <div *ngIf="serveurForm.get('address').errors.required">Address is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="mobile" class="col-md-2 col-form-label form-control-label">Phone</label>
+          <div class="col-md-10">
+            <input type="text" id="mobile"
+                   class="form-control" formControlName="mobile" [ngClass]="{'is-invalid':serveurForm.get('mobile').invalid && serveurForm.get('mobile').touched}"   [(ngModel)]="serveur.mobile" required>
+            <div *ngIf="serveurForm.get('mobile').invalid && serveurForm.get('mobile').touched" class="invalid-feedback">
+              <div *ngIf="serveurForm.get('mobile').errors.required">Mobile is required</div>
+              <div *ngIf="serveurForm.get('mobile').errors.pattern">Mobile must be a correct one</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="fixe" class="col-md-2 col-form-label form-control-label">Fixe</label>
+          <div class="col-md-10">
+            <input type="text" id="fixe"
+                   class="form-control" formControlName="fixe" [ngClass]="{'is-invalid':serveurForm.get('fixe').invalid && serveurForm.get('fixe').touched}"  [(ngModel)]="serveur.fixe" required>
+            <div *ngIf="serveurForm.get('fixe').invalid && serveurForm.get('fixe').touched" class="invalid-feedback">
+              <div *ngIf="serveurForm.get('fixe').errors.required">Fixe is required</div>
+              <div *ngIf="serveurForm.get('fixe').errors.pattern">Fixe must be a correct one</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="email" class="col-md-2 col-form-label form-control-label">Email</label>
+          <div class="col-md-10">
+            <input type="email" id="email"
+                   class="form-control" formControlName="email" [ngClass]="{'is-invalid':serveurForm.get('email').invalid && serveurForm.get('email').touched}"   [(ngModel)]="serveur.email" required>
+            <div *ngIf="serveurForm.get('email').invalid && serveurForm.get('email').touched" class="invalid-feedback">
+              <div *ngIf="serveurForm.get('email').errors.required">Email is required</div>
+              <div *ngIf="serveurForm.get('email').errors.email">Email must be a correct address</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="mdp" class="col-md-2 col-form-label form-control-label">Mot de passe</label>
+          <div class="col-md-10">
+            <input type="password" id="mdp"
+                   class="form-control" formControlName="mdp" [ngClass]="{'is-invalid':serveurForm.get('mdp').invalid && serveurForm.get('mdp').touched}" [(ngModel)]="serveur.mdp" required>
+            <div *ngIf="serveurForm.get('mdp').invalid && serveurForm.get('mdp').touched" class="invalid-feedback">
+              <div *ngIf="serveurForm.get('mdp').errors.required">Password is required</div>
+              <div *ngIf="serveurForm.get('mdp').errors.minlength">Password must be a letaset 6 charector</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="image" class="col-md-2 col-form-label form-control-label">Photo</label>
+          <div class="col-md-10">
+            <input type="file" (change)="detectFiles($event)" id="image"
+                   class="form-control" accept="image/*" required>
+            <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="serveurForm.invalid || fileIsUploading"
+                >Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- end formulaire ajout -->
+<!-- Footer -->
+<footer class="footer">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-6">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+        </li>
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+        </li>
+
+
+      </ul>
+    </div>
+  </div>
+</footer>
+

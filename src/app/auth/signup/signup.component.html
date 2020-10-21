@@ -1,0 +1,56 @@
+
+<!--<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2>Créer un compte</h2>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Adresse mail</label>
+        <input type="text"
+               id="email"
+               class="form-control"
+               formControlName="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password"
+               id="password"
+               class="form-control"
+               formControlName="password">
+      </div>
+      <button class="btn btn-primary"
+              type="submit"
+              [disabled]="signupForm.invalid">Créer mon compte</button>
+    </form>
+    <p class="text-danger">{{ errorMessage }}</p>
+  </div>
+</div>-->
+<div class="login-page">
+  <div class="row justify-content-md-center input-lg">
+    <div class="col-md-4">
+      <img class="user-avatar" src="assets/images/logo.png" width="150px" />
+      <h1>Enregistrement</h1>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <input type="text" class="form-control input-underline " id="email"
+                 formControlName="email" [ngClass]="{'is-invalid':signupForm.get('email').invalid && signupForm.get('email').touched}" placeholder="{{ 'Email'}}">
+          <div *ngIf="signupForm.get('email').invalid && signupForm.get('email').touched" class="invalid-feedback">
+            <div *ngIf="signupForm.get('email').errors.required">Email is required</div>
+            <div *ngIf="signupForm.get('email').errors.email">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control input-underline " id="password"
+                 formControlName="password" [ngClass]="{'is-invalid':signupForm.get('password').invalid && signupForm.get('password').touched}" placeholder="{{ 'Password'}}" >
+          <div *ngIf="signupForm.get('password').invalid && signupForm.get('password').touched" class="invalid-feedback">
+            <div *ngIf="signupForm.get('password').errors.required">Password is required</div>
+            <div *ngIf="signupForm.get('password').errors.minlength">Password must be a letaset 6 charector</div>
+          </div>
+
+        </div>
+        <button type="submit" class="btn rounded-btn" [disabled]="signupForm.invalid" >Register</button>&nbsp;
+        <button class="btn rounded-btn" [routerLink]="['/auth/signin']" >Log in</button>
+      </form>
+      <p class="text-danger">{{ errorMessage }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,318 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Charts'" [icon]="'fa-bar-chart-o'"></app-page-header>
+  <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+    <i class="fa fa-calendar"></i>&nbsp;
+    <span></span> <i class="fa fa-caret-down"></i>
+  </div>
+
+
+  <hr>
+  <div class="row">
+    <div class="col-xl-3 col-lg-6">
+      <app-stat [bgClass]="'primary'" [icon]="'fa-qrcode'" [count]="26" [label]="'Commandes ARA'" ></app-stat>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <app-stat [bgClass]="'warning'" [icon]="'fa-coffee'" [count]="12" [label]="'Produits servis'" ></app-stat>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <app-stat [bgClass]="'success'" [icon]="'fa-user'" [count]="124" [label]="'Clients'" ></app-stat>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <app-stat [bgClass]="'danger'" [icon]="'fa-chart'" [count]="13" [label]="'Chiffre d affaire'"></app-stat>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-xl-12">
+
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <i class="fa fa-qrcode"></i> <a style="margin-left: 10px">Nombres de commandes ARA</a>
+        </li>
+      </ol>
+    </div>
+
+  </div>
+
+
+    <!--<div class="row">
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Radar Chart
+                </div>
+                <div class="card-body">
+                    <canvas baseChart height="150px" [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Pie Chart
+                </div>
+                <div class="card-body">
+                    <canvas baseChart height="150px" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="row">
+        <!--<div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Polar Area Chart
+                </div>
+                <div class="card-body">
+                    <canvas baseChart height="130px" [data]="polarAreaChartData" [labels]="polarAreaChartLabels" [legend]="polarAreaLegend" [chartType]="polarAreaChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>-->
+        <div class="col col-sm-8">
+            <div class="card mb-8">
+                <div class="card-header">
+                    Line Chart
+                </div>
+                <div class="card-body">
+                    <canvas baseChart height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+      <div class="col col-sm-4">
+        <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+          <th scope="col">TOP 5 TABLES</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+        <tr>
+          <th scope="row">4</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+        <tr>
+          <th scope="row">5</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+  <div class="row">
+    <div class="col col-sm-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          Bar Chart
+        </div>
+        <div class="card-body">
+          <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+        </div>
+      </div>
+    </div>
+      <div class="col col-sm-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            Line Chart
+          </div>
+          <div class="card-body">
+            <canvas baseChart height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    <div class="col col-sm-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          Bar Chart
+        </div>
+        <div class="card-body">
+          <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-info btn-sm" (click)="randomize()">Update</button>
+        </div>
+      </div>
+    <!--<div class="col col-sm-6">
+      <div class="card mb-3">
+        <div class="card-header">
+          Doughnut Chart
+        </div>
+        <div class="card-body">
+          <canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+      </div>
+    </div>-->
+
+      </div>
+    <div class="row">
+      <div class="col col-lg-4">
+        <table class="table table-striped table-dark">
+          <thead>
+          <tr>
+            <th scope="col">TOP Serveurs</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col col-sm-4">
+        <table class="table table-striped table-dark">
+          <thead>
+          <tr>
+            <th>TOP 5 PRODUITS</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col col-sm-4">
+        <table class="table table-striped table-dark">
+          <thead>
+          <tr>
+            <th scope="col">TOP 5 CLIENTS</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+  </div>
+    <div class="row">
+      <div class="col-xl-12">
+
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <i class="fa fa-qrcode"></i> <a style="margin-left: 10px">Nombres de commandes ARA</a>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+
+</div>
+</div>

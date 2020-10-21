@@ -1,0 +1,603 @@
+<!--<div class="row">
+  <div class="col-xs-12">
+    <img style="max-width:200px;" *ngIf="categorie.thumb" [src]="categorie.thumb">
+    <h1>{{ categorie.title }}</h1>
+    <h3>{{ categorie.desc }}</h3>
+    <button class="btn btn-default" (click)="onBack()">Retour</button>
+    <button class="btn btn-success" (click)="onNewPlat()">Nouvelle Plat</button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Vos Plats</h2>
+    <div class="list-group row" *ngFor="let plat of plats; let i = index">
+      <div *ngIf="plat.category === id">
+        <div class="col-md-10">
+          <button class="list-group-item" (click)="onViewPlat(plat.key)">
+            <h3 class="list-group-item-heading">
+              {{ plat.title }}
+            </h3>
+            <p class="list-group-item-text">{{ plat.body }}</p>
+          </button>
+        </div>
+        <div class="col-md-2" style="text-align: right">
+          <button class="btn btn-warning" (click)="editPlat($event,i)">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <button class="btn btn-danger pull-right"
+                  mwlConfirmationPopover
+                  [popoverTitle] ="popoverTitle"
+                  [popoverMessage]="popoverMessage"
+                  placement="left"
+                  (confirm)="onDeletePlat(plat.key,plat.thumb)"
+                  (cancel)="cancelClicked = true">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
+          <button class="btn btn-info" *ngIf="editState && platToEdit == i" (click)="clearState()">
+            <span class="glyphicon glyphicon-resize-small"></span>
+          </button>
+        </div>
+        <div class="col-md-10" *ngIf="editState && platToEdit == i" style="background-color: orange">
+          <form [formGroup]="platForm" (ngSubmit)="updatePlat(plat)">
+            <div class="form-group">
+              <input type="text" placeholder="Titre" id="title" class="form-control" formControlName="title" [(ngModel)]="plat.title">
+            </div>
+            <div class="form-group">
+              <textarea id="body" class="form-control" formControlName="body" [(ngModel)]="plat.body"></textarea>
+            </div>
+            <div class="form-group">
+              <img style="max-width:50px;" *ngIf="plat.thumb" [src]="plat.thumb">
+              <input type="file" (change)="detectFiles($event)"
+                     class="form-control" accept="image/*">
+              <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+            </div>
+
+            //standard options
+            <img src="https://cdn.pixabay.com/photo/2014/03/25/17/00/plus-297823_960_720.png" width="30px" alt="" (click)="addStandardOptions()">
+            <div class="row" formArrayName="standardOptions">
+              <div class="col-md-12" *ngFor="let group of standardOptionsArray.controls">
+                <div class="row" *ngFor="let option of plat.standardOptions;let i = index;" [formGroupName]="i">
+                  <div>
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <input type="text" class="form-control" formControlName="nameS" [(ngModel)]="option.nameS">
+                      </div>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <input type="text" class="form-control" formControlName="selectedS" [(ngModel)]="option.selectedS">
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group control-buttons">
+                        <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removeStandardOptions()">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            //Extra options
+            <img src="https://cdn.pixabay.com/photo/2014/03/25/17/00/plus-297823_960_720.png" width="30px" alt="" (click)="addExtraOptions()">
+            <div class="row" formArrayName="extraOptions">
+              <div class="col-md-12" *ngFor="let group of extraOptionsArray.controls; let i = index;" [formGroupName]="i">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <input type="text" id="nameE" class="form-control" formControlName="nameE">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <input type="text" id="selectedE" class="form-control" formControlName="selectedE">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <input type="text" id="valueE" class="form-control" formControlName="valueE">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group control-buttons">
+                      <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removeExtraOptions()">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            //Size
+            <img src="https://cdn.pixabay.com/photo/2014/03/25/17/00/plus-297823_960_720.png" width="30px" alt="" (click)="addPrice()">
+            <div class="row" formArrayName="price">
+              <div class="col-md-12" *ngFor="let group of priceArray.controls; let i = index;" [formGroupName]="i">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <input type="text" id="nameP" class="form-control" formControlName="nameP">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <input type="text" id="valueP" class="form-control" formControlName="valueP">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <input type="text" id="currencyP" class="form-control" formControlName="currencyP">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group control-buttons">
+                      <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removePrice()">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-success" [disabled]="platForm.invalid || fileIsUploading"
+                    type="submit">Modifier
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/detail-restaurant']"> <p class="h5" ><span class="fa fa-arrow-left" (click)="onBack()"><a> Retour vers la liste des catégories</a></span></p></a>
+
+    </div>
+  </div>
+  <!-- Dark table -->
+  <!-- formulaire ajout -->
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header border-0 bgglobal">
+      <div class="row">
+        <div class="col-6">
+          <h3 class="mb-0">Détails de la catégorie</h3>
+        </div>
+
+      </div>
+    </div>
+    <!-- Card body -->
+    <div class="card-body bgglobal">
+
+      <form>
+
+        <div class="row">
+
+          <div class="col-md-6 mama">
+            <img *ngIf="categorie.thumb" [src]="categorie.thumb" max-width="100px"/>
+          </div>
+
+          <div class="col-md-6 mama">
+
+            <div class="row">
+              <div class="col-md-6">
+                Nom : <b>{{ categorie.title }}</b>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mama">
+                Description :  <b>{{ categorie.desc }}</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- test -->
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0 bgglobal">
+          <div class="row">
+            <div class="col-6">
+              <h3 class="mb-0">Gestions des Plats</h3>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4" />
+        <div class="card-header border-0 bgdarken">
+          <div class="row">
+            <div class="col-6">
+              <h3 class="mb-0">Liste des plats</h3>
+            </div>
+            <div class="col-6 text-right">
+              <a class="btn btn-sm btn-primary btn-round btn-icon bglight" data-toggle="tooltip" title="Ajouter" (click)="onNewPlat()">
+                <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+                <span class="btn-inner--text">Ajouter Un nouveau plat</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush table-striped">
+            <thead class="bglight">
+            <tr>
+              <th><b><u>Action</u></b></th>
+              <th>Image</th>
+              <th>Nom du plat</th>
+              <th>Description du plat</th>
+              <th>Etat</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let plat of plats; let i = index">
+            <tr *ngIf="plat.category === id" class="bgglobal">
+              <td class="table-actions">
+                <a [routerLink]="" class="table-action" data-toggle="tooltip" title="Modifier" (click)="editPlat($event,i)">
+                  <i class="fa fa-edit"></i>
+                </a>
+                <a [routerLink]="['/plats/view/:id']" class="table-action" data-toggle="tooltip" title="Détails" style="margin-left: 10px" (click)="onViewPlat(plat.key)">
+                  <i class="fa fa-search"></i>
+                </a>
+                <a [routerLink]="" class="table-action table-action-delete" data-toggle="tooltip" title="Supprimer" style="margin-left: 10px; color: red;" mwlConfirmationPopover
+                   [popoverTitle] ="popoverTitle"
+                   [popoverMessage]="popoverMessage"
+                   placement="top-left"
+                   (confirm)="onDeletePlat(plat.key,plat.thumb)"
+                   (cancel)="cancelClicked = true">
+                  <i class="fa fa-trash"></i>
+                </a>
+                <button class="btn btn-info" data-toggle="tooltip" title="Retour" *ngIf="editState && platToEdit == i" (click)="clearState()" style="margin-left: 10px">
+                  <i class="fa fa-search-minus"></i>
+                </button>
+              </td>
+
+              <td>
+                <img *ngIf="plat.thumb" [src]="plat.thumb" class="rounded-circle mr-3" width="50px">
+              </td>
+
+              <td class="table-user">
+                <b>{{ plat.title }}</b>
+              </td>
+
+              <td>
+                <span class="text-muted">{{ plat.body }}</span>
+              </td>
+
+              <td>
+                <div *ngIf="plat.etat =='true'">
+                  <button class="btn btn-success">
+                    {{"Disponible"}}
+                  </button>
+
+                </div>
+                <div *ngIf="plat.etat =='false'">
+                  <button class="btn btn-danger">
+                    {{"Non Disponible"}}
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="editState && platToEdit == i">
+              <td colspan="5">
+                <div class="card-body">
+                  <form [formGroup]="platForm" (ngSubmit)="updatePlat(plat)">
+                    <div class="form-group row">
+                      <label for="title" class="col-md-2 col-form-label form-control-label" >Titre</label>
+                      <div class="col-md-10">
+                        <input class="form-control" formControlName="title" [ngClass]="{'is-invalid':platForm.get('title').invalid && platForm.get('title').touched}"    [(ngModel)]="plat.title" name="title" required id="title">
+                        <div *ngIf="platForm.get('title').invalid && platForm.get('title').touched" class="invalid-feedback">
+                          <div *ngIf="platForm.get('title').errors.required">Title is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="body" class="col-md-2 col-form-label form-control-label">Description</label>
+                      <div class="col-md-10">
+                        <textarea class="form-control" class="form-control" formControlName="body" [ngClass]="{'is-invalid':platForm.get('body').invalid && platForm.get('body').touched}"[(ngModel)]="plat.body" name="title" required id="body"  > </textarea>
+                        <div *ngIf="platForm.get('body').invalid && platForm.get('body').touched" class="invalid-feedback">
+                          <div *ngIf="platForm.get('body').errors.required">Description is required</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label  class="col-md-2 col-form-label form-control-label" >Image</label>
+                      <div class="col-md-10">
+                        <img style="max-width:50px;" *ngIf="plat.thumb" [src]="plat.thumb">
+                        <input type="file" (change)="detectFiles($event)"
+                               class="form-control" accept="image/*">
+                      </div>
+                        <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+                    </div>
+                    <div class="form-group row">
+                      <label for="etat" class="col-md-2 col-form-label form-control-label">Etat</label>
+                      <div class="col-md-10">
+                        <select placeholder="Etat" class="form-control" formControlName="etat" [(ngModel)]="plat.etat" id="etat" >
+                          <option value="true">Disponible</option>
+                          <option value="false">Non disponible</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="example-url-input" class="col-md-0 col-form-label form-control-label">Option   </label>
+                        <button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50% ; margin-left: 15px" (click)="addStandardOptions()"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="row" formArrayName="standardOptions">
+                      <div class="col-md-12" *ngFor="let group of standardOptionsArray.controls; let i = index;" [formGroupName]="i">
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <input type="text" id="nameS" class="form-control" formControlName="nameS" name="nameS" required>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <button class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+                              {{meridian ? "ON" : "OFF"}}
+                            </button>
+                            <button  type="button" class="btn btn-danger btn-circle btn-sm mama" style="border-radius: 50% ; margin-left: 10px " ><i class="fa fa-minus"(click)="removeStandardOptions(i)"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="example-url-input" class="col-md-0 col-form-label form-control-label">Extra   </label>
+                        <button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50% ; margin-left: 27px" (click)="addExtraOptions()"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="row" formArrayName="extraOptions">
+                      <div class="col-md-12" *ngFor="let group of extraOptionsArray.controls; let i = index;" [formGroupName]="i">
+                        <div class="row">
+                          <div class="col-md-5">
+                            <div class="form-group">
+                              <input type="text" id="nameE" class="form-control" formControlName="nameE" name="nameE" required>
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="form-group">
+                              <div class="input-group input-group-merge">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                                </div>
+                                <div class="input-group-append">
+                                  <input type="number" id="valueE" class="form-control" formControlName="valueE">
+                                  <span class="input-group-text"><small class="font-weight-bold">MAD</small></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <button class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+                              {{meridian ? "ON" : "OFF"}}
+                            </button>
+                            <button  type="button" class="btn btn-danger btn-circle btn-sm mama" style="border-radius: 50% ; margin-left: 10px " ><i class="fa fa-minus"(click)="removeExtraOptions(i)"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="example-url-input" class="col-md-0 col-form-label form-control-label">Taille   </label>
+                        <button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50% ; margin-left: 27%" (click)="addPrice()"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="row" formArrayName="price">
+                      <div class="col-md-12" *ngFor="let group of priceArray.controls; let i = index;" [formGroupName]="i">
+                        <div class="row">
+                          <div class="col-md-5">
+                            <div class="form-group">
+                              <input type="text" id="nameP" class="form-control" formControlName="nameP" name="nameP" required>
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="form-group">
+                              <div class="input-group input-group-merge">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                                </div>
+                                <div class="input-group-append">
+                                  <input type="number" id="valueP" class="form-control" formControlName="valueP">
+                                  <span class="input-group-text"><small class="font-weight-bold">MAD</small></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <button class="btn btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+                              {{meridian ? "ON" : "OFF"}}
+                            </button>
+                            <button  type="button" class="btn btn-danger btn-circle btn-sm mama" style="border-radius: 50% ; margin-left: 10px " ><i class="fa fa-minus"(click)="removePrice(i)"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+
+                    <button type="submit" class="btn btn-success btn-lg btn-block">Enregistrer</button>
+
+                  </form>
+                </div>
+              <div class="col-md-12"  style="background-color: #cce5ff ; " >
+
+                <form [formGroup]="platForm" (ngSubmit)="updatePlat(plat)" >
+                  <div class="form-group">
+                    <label for="title" class="col-md-2 col-form-label form-control-label" >Titre</label>
+                    <input type="text" placeholder="Titre" id="title" class="form-control" formControlName="title" [(ngModel)]="plat.title">
+                  </div>
+                  <div class="form-group">
+                    <label for="body" class="col-md-4 col-form-label form-control-label" >Description</label>
+                    <textarea id="body" class="form-control" formControlName="body" [(ngModel)]="plat.body"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label  class="col-md-2 col-form-label form-control-label" >Image</label>
+                    <img style="max-width:50px;" *ngIf="plat.thumb" [src]="plat.thumb">
+                    <input type="file" (change)="detectFiles($event)"
+                           class="form-control" accept="image/*">
+                    <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="etat" class="col-md-2 col-form-label form-control-label" >Etat</label>
+                    <select placeholder="etat" class="form-control" formControlName="etat" [(ngModel)]="plat.etat" id="etat" >
+                      <option value="true">true</option>
+                      <option value="false">false</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                  <div class="row" formArrayName="standardOptions">
+                    <label for="" class="col-md-2 col-form-label form-control-label" >Option</label><button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50%" (click)="addStandardOptions()"><i class="fa fa-plus"></i></button>
+                    <div class="col-md-12" *ngFor="let group of standardOptionsArray.controls">
+                      <div class="row" *ngFor="let option of plat.standardOptions;let iii = index;" [formGroupName]="iii">
+                          <div class="col-md-5">
+                            <div class="form-group">
+                              <input type="text" class="form-control" formControlName="nameS" [(ngModel)]="option.nameS" value="{{option.nameS}}">
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="form-group">
+                              <input type="text" class="form-control" formControlName="selectedS" [(ngModel)]="option.selectedS" value="{{option.selectedS}}">
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group control-buttons">
+                              <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removeStandardOptions(iii)">
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  </div>
+
+                  <div class="row" formArrayName="extraOptions">
+                    <label for="" class="col-md-2 col-form-label form-control-label" >Extra</label><button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50%" (click)="addExtraOptions()"><i class="fa fa-plus"></i></button>
+                    <div class="col-md-12" *ngFor="let group of extraOptionsArray.controls" >
+                      <div class="row" *ngFor="let option of plat.extraOptions ;let ii = index;" [formGroupName]="ii">
+
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <input type="text" id="nameE" class="form-control" formControlName="nameE" [(ngModel)]="option.nameE" value="{{option.nameE}}}">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <input type="text" id="selectedE" class="form-control" formControlName="selectedE" [(ngModel)]="option.selectedE" value="{{option.selectedE}}" >
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <input type="text" id="valueE" class="form-control" formControlName="valueE" [(ngModel)]="option.valueE" value="{{option.valueE}}">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group control-buttons">
+                            <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removeExtraOptions(ii)">
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+                  <div class="row" formArrayName="price">
+                    <label for="" class="col-md-2 col-form-label form-control-label" >Taille</label><button type="button" class="btn btn-success btn-circle btn-sm" style="border-radius: 50%" (click)="addPrice()"><i class="fa fa-plus"></i></button>
+                    <div class="col-md-12" *ngFor="let group of priceArray.controls">
+                      <div class="row" *ngFor="let option of plat.price;let i = index;" [formGroupName]="i">
+
+                        <div class="col-md-4" >
+                          <div class="form-group">
+                            <input type="text" id="nameP" class="form-control" formControlName="nameP" [(ngModel)]="option.nameP" value="{{option.nameP}}">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <input type="text" id="valueP" class="form-control" formControlName="valueP" [(ngModel)]="option.valueP" value="{{option.valueP}}">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <input type="text" id="currencyP" class="form-control" formControlName="currencyP" [(ngModel)]="option.currencyP" value="{{option.currencyP}}">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group control-buttons">
+                            <img src="https://img.pngio.com/minuspng-minus-png-512_512.png" width="30px" alt="" (click)="removePrice(i)">
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-success" [disabled]="platForm.invalid || fileIsUploading"
+                          type="submit" style="margin-left: 500px">Modifier
+                  </button>
+
+                </form>
+
+              </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <div class="card-footer py-4 bgglobal">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">
+                  <i class="fa fa-angle-left"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="bgdarken">
+                <a class="page-link bgdarken" href="#">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">
+                  <i class="fa fa-angle-right"></i>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="row align-items-center justify-content-xl-between">
+          <div class="col-xl-6">
+            <div class="copyright text-center text-xl-left text-muted">
+              &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+              <li class="nav-item">
+                <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+              </li>
+              <li class="nav-item">
+                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+              </li>
+              <li class="nav-item">
+                <a href="http://blog.creative-tim.com/" class="nav-link" target="_blank">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>

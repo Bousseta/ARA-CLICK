@@ -1,0 +1,185 @@
+<!--<div class="row">
+  <div class="col-xs-12">
+    <img style="max-width:200px;" *ngIf="plat.thumb" [src]="plat.thumb">
+    <h1>{{ plat.title }}</h1>
+    <h3>{{ plat.body }}</h3>
+    <hr>
+    //Options
+    <div class="list-group row" *ngFor="let option of plat.standardOptions">
+      <h4>{{ option.nameS }}</h4>
+      <h4>{{ option.selectedS }}</h4>
+    </div>
+    <hr>
+    //Extra
+    <div class="list-group row" *ngFor="let option of plat.extraOptions">
+      <h4>{{ option.nameE }}</h4>
+      <h4>{{ option.selectedE }}</h4>
+      <h4>{{ option.valueE }}</h4>
+    </div>
+    <hr>
+    //Price
+    <div class="list-group row" *ngFor="let option of plat.extraOptions">
+      <h4>{{ option.nameE }}</h4>
+      <h4>{{ option.valueE }}</h4>
+      <h4>{{ option.currencyE }}</h4>
+    </div>
+    <button class="btn btn-default" (click)="onBack()">Retour</button>
+  </div>
+</div>-->
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/detail-categorie']"> <p class="h5" ><span class="fa fa-arrow-left" (click)="onBack()"><a> Retour vers la liste des plats</a></span></p></a>
+
+    </div>
+  </div>
+
+  <!-- Dark table -->
+  <!-- Start détail-->
+  <div class="container-fluid mt--7">
+    <div class="row">
+      <div class="col-xl-6 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+          <img *ngIf="plat.thumb" [src]="plat.thumb"  width="100%">
+          <div class="row justify-content-center">
+
+          </div>
+        </div>
+        <br>
+
+      </div>
+
+      <div class="col-xl-6 order-xl-1">
+        <form class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Détail Plat</h3>
+              </div>
+
+            </div>
+          </div>
+          <div class="card-body" style="background-color: #cce5ff">
+            <form>
+
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <span class="fa fa-mug-hot"></span> <label class="form-control-label" for="input-username">Nom du plat</label>
+                      <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ plat.title }}" disabled="">
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email">Description du plat</label>
+                      <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="{{ plat.body }}" disabled="">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-address" >Option</label>
+                      <div *ngFor="let option of plat.standardOptions" style="margin-top: 10px">
+                      <input id="input-address" class="form-control form-control-alternative" placeholder="Extra" value="{{ option.nameS }}" type="text" disabled="">
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-last-name">Extra</label>
+                      <div class="row">
+                        <div class="col">
+                          <div  *ngFor="let option of plat.extraOptions" style="margin-top: 10px">
+                          <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ option.nameE }}" disabled="" />
+                          </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-last-name">Prix</label>
+
+                      <div class="input-group input-group-merge" style="margin-top: 10px" *ngFor="let price of plat.extraOptions">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                        </div>
+                        <input class="form-control" placeholder="Prix" type="number"    value="{{price.valueE}}" disabled="">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><small class="font-weight-bold">MAD</small></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-last-name">Taille</label>
+
+                      <div class="row">
+                        <div class="col">
+                          <div *ngFor="let option of plat.price" style="margin-top: 10px">
+                          <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{option.nameP}}" disabled="" />
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+                    <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-last-name">Prix</label>
+
+                      <div class="input-group input-group-merge" style="margin-top: 10px"   *ngFor="let price of plat.price">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                        </div>
+                        <input class="form-control" placeholder="Prix" type="number"  value="{{price.valueP}}" disabled="">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><small class="font-weight-bold">MAD</small></span>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </form>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer -->
+<footer class="footer">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-6">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+        </li>
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+        </li>
+        <li class="nav-item">
+          <a href="http://blog.creative-tim.com/" class="nav-link" target="_blank">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+

@@ -1,0 +1,325 @@
+<!--<div class="row">
+  <div class="col-xs-12">
+    <h2>Vos Serveurs</h2>
+    <div class="list-group row" *ngFor="let serveur of serveurs; let i = index">
+      <div class="col-md-10">
+        <button class="list-group-item" (click)="onViewServeur(serveur.key)">
+          <h3 class="list-group-item-heading">
+            {{ serveur.nom }}
+          </h3>
+          <div *ngFor="let restaurant of restaurants; let i = index">
+            <p class="list-group-item-text" *ngIf="serveur.id_restaurant == restaurant.key">{{ restaurant.storeName }}</p>
+          </div>
+        </button>
+      </div>
+      <div class="col-md-2" style="text-align: right">
+        <button class="btn btn-warning" (click)="editServeur($event,i)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button class="btn btn-danger pull-right"
+                mwlConfirmationPopover
+                [popoverTitle] ="popoverTitle"
+                [popoverMessage]="popoverMessage"
+                placement="left"
+                (confirm)="onDeleteServeur(serveur.key, serveur.photo)"
+                (cancel)="cancelClicked = true">
+          <span class="glyphicon glyphicon-minus"></span>
+        </button>
+        <button class="btn btn-info" *ngIf="editState && serveurToEdit == i" (click)="clearState()">
+          <span class="glyphicon glyphicon-resize-small"></span>
+        </button>
+      </div>
+      <div class="col-md-10" *ngIf="editState && serveurToEdit == i" style="background-color: orange">
+        <form [formGroup]="serveurForm" (ngSubmit)="updateServeur(serveur)">
+          <div class="form-group">
+            <label for="sel1">Select Restaurant:</label>
+            <select class="form-control" id="sel1" formControlName="id_restaurant" [(ngModel)]="serveur.id_restaurant" required>
+              <option *ngFor="let restaurant of restaurants; let ii = index"  [ngValue]="restaurant.key">{{restaurant.storeName}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Nom complet" id="nom" class="form-control" formControlName="nom" [(ngModel)]="serveur.nom">
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="CIN" id="cin" class="form-control" formControlName="cin" [(ngModel)]="serveur.cin">
+          </div>
+          <div class="form-group">
+            <textarea id="adress" placeholder="Adresse" class="form-control" formControlName="adress" [(ngModel)]="serveur.adress"></textarea>
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Mobile" id="mobile" class="form-control" formControlName="mobile" [(ngModel)]="serveur.mobile">
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Fixe" id="fixe" class="form-control" formControlName="fixe" [(ngModel)]="serveur.fixe">
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="Email" id="email" class="form-control" formControlName="email" [(ngModel)]="serveur.email">
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="mdp" id="mdp" class="form-control" formControlName="mdp" [(ngModel)]="serveur.mdp">
+          </div>
+          <div class="form-group">
+            <img style="max-width:50px;" *ngIf="serveur.photo" [src]="serveur.photo">
+            <input type="file" (change)="detectFiles($event)"
+                   class="form-control" accept="image/*">
+            <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+          </div>
+          <button class="btn btn-success" [disabled]="serveurForm.invalid || fileIsUploading"
+                  type="submit">Modifier
+          </button>
+
+        </form>
+      </div>
+    </div>
+    <button class="btn btn-primary" (click)="onNewServeur()">Nouveau Serveur</button>
+  </div>
+</div>-->
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/gestion-serveur']"> <p class="h5" ><span class="fa fa-arrow-left" (click)="onBack()"><a> Retours vers mes espaces</a></span></p></a>
+
+    </div>
+  </div>
+  <!-- Table -->
+  <!-- Dark table -->
+  <!-- formulaire ajout -->
+  <!-- Card header -->
+  <!-- Card body -->
+  <!-- test -->
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header border-0 bgglobal">
+      <div class="row bgdarken">
+        <div class="col-6">
+          <h3 class="mb-0">Liste des Serveurs</h3>
+        </div>
+        <div class="col-6 text-right">
+          <a class="btn btn-sm btn-primary btn-round btn-icon bglight" data-toggle="tooltip" title="Ajouter" (click)="onNewServeur()">
+            <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+            <span class="btn-inner--text">Ajouter Un nouveau serveur</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Light table -->
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush table-striped">
+        <thead class="bglight">
+        <tr>
+          <th><b><u>Action</u></b></th>
+          <th>Image</th>
+          <th>Nom</th>
+          <th>CIN</th>
+          <th>Adresse</th>
+          <th>Téléphone</th>
+
+        </tr>
+        </thead>
+        <tbody *ngFor="let serveur of serveurs ; let i = index">
+        <tr *ngIf="serveur.id_restaurant === id" class="bgglobal">
+          <td class="table-actions">
+            <a [routerLink]="" class="table-action" data-toggle="tooltip" title="Modifier" (click)="editServeur($event,i)">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a  [routerLink]="" class="table-action" data-toggle="tooltip" title="Détails" style="margin-left: 10px" (click)="onViewServeur(serveur.key)">
+              <i class="fa fa-search"></i>
+            </a>
+            <a [routerLink]="" class="table-action table-action-delete" data-toggle="tooltip" title="Supprimer" style="margin-left: 10px ;color: red" mwlConfirmationPopover
+               [popoverTitle] ="popoverTitle"
+               [popoverMessage]="popoverMessage"
+               placement="top-left"
+               (confirm)="onDeleteServeur(serveur.key, serveur.photo)"
+               (cancel)="cancelClicked = true">
+              <i class="fa fa-trash"></i>
+            </a>
+            <button class="btn btn-info" data-toggle="tooltip" title="Retour" *ngIf="editState && serveurToEdit == i" (click)="clearState()" style="margin-left: 10px">
+              <i class="fa fa-search-minus"></i>
+            </button>
+          </td>
+
+          <td>
+            <img style="max-width:50px;" *ngIf="serveur.photo" [src]="serveur.photo" class="rounded-circle mr-3" width="50px">
+          </td>
+
+          <td class="table-user">
+
+            <b>{{ serveur.nom }}</b>
+          </td>
+          <td>
+            <span class="text-muted">{{ serveur.cin }} </span>
+          </td>
+
+          <td>
+            <span class="text-muted">{{ serveur.adress }}</span>
+          </td>
+
+          <td>
+            <span class="text-muted">{{ serveur.mobile }}</span>
+          </td>
+        </tr>
+
+        <tr *ngIf="editState && serveurToEdit == i">
+          <td colspan="6">
+            <div class="card-body" style="background-color: #ffffff; color: #0e3b57">
+              <form [formGroup]="serveurForm" (ngSubmit)="updateServeur(serveur)">
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group" >
+                        <label for="sel1">Select Restaurant:</label>
+                        <select class="form-control" id="sel1" formControlName="id_restaurant" [(ngModel)]="serveur.id_restaurant" required>
+                          <option *ngFor="let restaurant of restaurants; let i = index"  [ngValue]="restaurant.key">{{restaurant.storeName}}</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <span class="fa fa-2x fa-mug"></span> <label class="form-control-label" for="nom" style="margin-left: 10px"><b>   Nom complet</b></label>
+                        <input type="text" placeholder="Nom complet" id="nom" class="form-control" formControlName="nom" [ngClass]="{'is-invalid':serveurForm.get('nom').invalid && serveurForm.get('nom').touched}" [(ngModel)]="serveur.nom" required="">
+                        <div *ngIf="serveurForm.get('nom').invalid && serveurForm.get('nom').touched" class="invalid-feedback">
+                          <div *ngIf="serveurForm.get('nom').errors.required">Name is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="cin" style="margin-left: 10px"><b>  CIN</b></label>
+                        <input type="text" placeholder="CIN" id="cin" class="form-control" formControlName="cin" [ngClass]="{'is-invalid':serveurForm.get('cin').invalid && serveurForm.get('cin').touched}" [(ngModel)]="serveur.cin" required="">
+                        <div *ngIf="serveurForm.get('nom').invalid && serveurForm.get('nom').touched" class="invalid-feedback">
+                          <div *ngIf="serveurForm.get('nom').errors.required">Name is required</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <span class="fa fa-2x fa-map-marker"></span> <label class="form-control-label" for="address" style="margin-left: 10px"> <b> Address</b></label>
+                        <textarea id="address" placeholder="Address" class="form-control" formControlName="address" [ngClass]="{'is-invalid':serveurForm.get('address').invalid && serveurForm.get('address').touched}"[(ngModel)]="serveur.adress" required=""></textarea>
+                        <div *ngIf="serveurForm.get('address').invalid && serveurForm.get('address').touched" class="invalid-feedback">
+                          <div *ngIf="serveurForm.get('address').errors.required">Address is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <span class="fa fa-2x fa-mobile"></span> <label class="form-control-label" for="mobile" style="margin-left: 10px"><b> Mobile</b></label>
+                        <input type="text" placeholder="Mobile" id="mobile" class="form-control" formControlName="mobile" [ngClass]="{'is-invalid':serveurForm.get('mobile').invalid && serveurForm.get('mobile').touched}" [(ngModel)]="serveur.mobile">
+                        <div *ngIf="serveurForm.get('mobile').invalid && serveurForm.get('mobile').touched" class="invalid-feedback">
+                          <div *ngIf="serveurForm.get('mobile').errors.required">Mobile is required</div>
+                          <div *ngIf="serveurForm.get('mobile').errors.pattern">Mobile must be a correct one</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <span class="fa fa-2x fa-phone"></span> <label class="form-control-label" for="fixe" style="margin-left: 10px"><b> Fixe</b></label>
+                        <input type="text" placeholder="Fixe" id="fixe" class="form-control" formControlName="fixe" [ngClass]="{'is-invalid':serveurForm.get('fixe').invalid && serveurForm.get('fixe').touched}" [(ngModel)]="serveur.fixe"></div>
+                      <div *ngIf="serveurForm.get('fixe').invalid && serveurForm.get('fixe').touched" class="invalid-feedback">
+                        <div *ngIf="serveurForm.get('fixe').errors.required">Fixe is required</div>
+                        <div *ngIf="serveurForm.get('fixe').errors.pattern">Fixe must be a correct one</div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <span class="fa fa-2x fa-at"></span> <label class="form-control-label" for="email" style="margin-left: 10px"> <b>  Email</b></label>
+                        <input type="email" placeholder="Email" id="email" class="form-control" formControlName="email" [ngClass]="{'is-invalid':serveurForm.get('email').invalid && serveurForm.get('email').touched}"[(ngModel)]="serveur.email">
+                        <div *ngIf="serveurForm.get('email').invalid && serveurForm.get('email').touched" class="invalid-feedback">
+                          <div *ngIf="serveurForm.get('email').errors.required">Email is required</div>
+                          <div *ngIf="serveurForm.get('email').errors.email">Email must be a correct address</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <span class="fa fa-2x fa-eye"></span> <label class="form-control-label" for="mdp" style="margin-left: 10px">  <b> Mot de passe</b></label>
+                        <input type="text" placeholder="mdp" id="mdp" class="form-control" formControlName="mdp" [ngClass]="{'is-invalid':serveurForm.get('mdp').invalid && serveurForm.get('mdp').touched}" [(ngModel)]="serveur.mdp">
+                        <div *ngIf="serveurForm.get('mdp').invalid && serveurForm.get('mdp').touched" class="invalid-feedback">
+                          <div *ngIf="serveurForm.get('mdp').errors.required">Password is required</div>
+                          <div *ngIf="serveurForm.get('mdp').errors.minlength">Password must be a letaset 6 charector</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 ">
+                    <div class="form-group">
+                      <img style="max-width:50px;" *ngIf="serveur.photo" [src]="serveur.photo">
+                      <input type="file" (change)="detectFiles($event)"
+                             class="form-control" accept="image/*">
+                      <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+                    </div>
+                    </div>
+                    <div class="col-lg-12">
+                    <button class="btn btn-success" style="margin-left: 400px" [disabled]="serveurForm.invalid || fileIsUploading"
+                            type="submit">Modifier
+                    </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-footer py-4 bgglobal">
+      <nav aria-label="...">
+        <ul class="pagination justify-content-end mb-0">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">
+              <i class="fa fa-angle-left"></i>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li class="bgdarken">
+            <a class="page-link bgdarken" href="#">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+
+  <!-- end test -->
+  <!-- end formulaire ajout -->
+
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="row align-items-center justify-content-xl-between">
+      <div class="col-xl-6">
+        <div class="copyright text-center text-xl-left text-muted">
+          &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+          <li class="nav-item">
+            <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+          </li>
+          <li class="nav-item">
+            <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+          </li>
+          <li class="nav-item">
+            <a href="http://blog.creative-tim.com/" class="nav-link" target="_blank">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+

@@ -1,0 +1,117 @@
+<!--<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2>Enregistrer une nouvelle Catégorie</h2>
+    <form [formGroup]="categorieForm" (ngSubmit)="onSaveCategorie()">
+      <div class="form-group">
+        <label for="title">Titre</label>
+        <input type="text" id="title" class="form-control" formControlName="title" [(ngModel)]="categorie.title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="synopsis">Description</label>
+        <textarea id="synopsis" class="form-control" formControlName="desc" [(ngModel)]="categorie.desc" name="desc" required></textarea>
+      </div>
+      <div class="form-group">
+        <h4>Ajouter une photo</h4>
+        <input type="file" (change)="detectFiles($event)"
+               class="form-control" accept="image/*">
+        <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+      </div>
+      <button class="btn btn-success" [disabled]="categorieForm.invalid || fileIsUploading" type="submit">
+        Enregistrer
+      </button>
+
+    </form>
+  </div>
+</div>-->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/detail-restaurant']"> <p class="h5" ><span class="fa fa-arrow-left" (click)="onBack()"><a> Retour vers la liste des categories</a></span></p></a>
+
+    </div>
+  </div>
+  <!-- Dark table -->
+  <!-- formulaire ajout -->
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header">
+      <h3 class="mb-0">Ajouter une nouvelle catégorie</h3>
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+      <form [formGroup]="categorieForm" (ngSubmit)="onSaveCategorie()">
+        <div class="form-group row">
+          <label for="title" class="col-md-2 col-form-label form-control-label">Titre</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="title" [ngClass]="{'is-invalid':categorieForm.get('title').invalid && categorieForm.get('title').touched}"  [(ngModel)]="categorie.title" name="title" required id="title">
+            <div *ngIf="categorieForm.get('title').invalid && categorieForm.get('title').touched" class="invalid-feedback">
+              <div *ngIf="categorieForm.get('title').errors.required">Title is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="desc" class="col-md-2 col-form-label form-control-label">Description</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="desc" [ngClass]="{'is-invalid':categorieForm.get('desc').invalid && categorieForm.get('desc').touched}"   [(ngModel)]="categorie.desc" name="desc" required id="desc"  >
+            <div *ngIf="categorieForm.get('desc').invalid && categorieForm.get('desc').touched" class="invalid-feedback">
+              <div *ngIf="categorieForm.get('desc').errors.required">Description is required</div>
+            </div>
+          </div>
+        </div>
+          <div class="form-group row">
+            <label for="etat" class="col-md-2 col-form-label form-control-label">Etat</label>
+            <div class="col-md-10">
+            <select placeholder="Etat" class="form-control" formControlName="etat" [ngClass]="{'is-invalid':categorieForm.get('etat').invalid && categorieForm.get('etat').touched}"   [(ngModel)]="categorie.etat" id="etat" >
+              <option value="true">true</option>
+              <option value="false">false</option>
+            </select>
+
+            </div>
+          </div>
+
+        <div class="form-group row">
+          <label for="thumb" class="col-md-2 col-form-label form-control-label">Image</label>
+          <div class="col-md-10">
+            <input type="file" (change)="detectFiles($event)"
+                   class="form-control" accept="image/*" id="thumb">
+            <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success " [disabled]="categorieForm.invalid || fileIsUploading">Enregistrer</button>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- end formulaire ajout -->
+
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-6">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+        </li>
+        <li class="nav-item">
+          <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+        </li>
+        <li class="nav-item">
+          <a href="http://blog.creative-tim.com/" class="nav-link" target="_blank">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

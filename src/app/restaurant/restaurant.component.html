@@ -1,0 +1,260 @@
+<div class="container-fluid mt--7">
+  <div class="row" style="margin-top: 10px">
+    <div class="col-xl-6 text-xs-center" >
+      <a [routerLink]="['/dashboard']"> <p class="h5" ><span class="fa fa-arrow-left "  ><a > Retour vers le tableau de bord</a></span></p></a>
+    </div>
+  </div>
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header  bgglobal" >
+      <div class="row bgdarken">
+        <div class="col-6">
+          <h5 class="mb-0">Mes Espaces</h5>
+        </div>
+        <div class="col-6 text-right" >
+          <a class="btn btn-sm btn-primary btn-round btn-icon bglight " data-toggle="tooltip" title="Ajouter" >
+            <span class="btn-inner--icon"><i class="fa fa-edit" ></i></span>
+            <span class="font-weight-bolder" [routerLink]="['/restaurants/new']" style="margin-left: 10px">Ajouter un nouvel espace</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Light table -->
+    <div class="table-responsive " >
+      <div >
+        <table class="table align-items-center table-flush table-striped "  >
+          <thead class="bglight" >
+          <tr >
+            <th><b><u>Action</u></b></th>
+            <th>Logo</th>
+            <th>Nom Espace</th>
+            <th>Description</th>
+            <th>Adresse</th>
+          </tr>
+          </thead>
+          <tbody *ngFor="let restaurant of restaurants; let i = index;let item of items | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+          <tr *ngIf="restaurant.userID === userId" class="bgglobal" >
+            <td class="table-actions" >
+              <a [routerLink]="" class="table-action bs-tooltip-auto" data-toggle="Modifier" x-placement="top" title="Modifier"  (click)="editRestaurant($event,i)">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a [routerLink]="['/restaurants/view/:id']" class="table-action"  data-toggle="tooltip" title="Détail" style="margin-left: 10px" (click)="onViewRestaurant(restaurant.key)">
+                <i class="fa fa-search"></i>
+              </a>
+              <a [routerLink]="" class="table-action table-action-delete " data-toggle="tooltip" title="Supprimer" style="margin-left: 10px;color: red" mwlConfirmationPopover
+                 [popoverTitle] ="popoverTitle"
+                 [popoverMessage]="popoverMessage"
+                 placement="top-left"
+                 (confirm)="onDeleteRestaurant(restaurant.key, restaurant.logo)"
+                 (cancel)="cancelClicked = true">
+                <i class="fa fa-trash"></i>
+              </a>
+              <a class="btn btn-info" data-toggle="tooltip" title="Retour" *ngIf="editState && restaurantToEdit == i" (click)="clearState()" style="margin-left: 10px">
+                <i class="fa fa-search-minus"></i>
+              </a>
+            </td>
+            <td>
+              <img [src]="restaurant.logo"  class="rounded-circle" width="50px" >
+            </td>
+            <td >
+              <b class="textsz">{{ restaurant.storeName }}</b>
+            </td>
+            <td>
+              <b class="textsz">{{ restaurant.desc }}</b>
+            </td>
+            <td>
+              <b class="textsz">{{ restaurant.address}}</b>
+            </td>
+          </tr>
+          <tr *ngIf="editState && restaurantToEdit == i">
+            <td colspan="5">
+              <div class="table-responsive"  style="margin-left:10px" >
+                <form [formGroup]="restaurantForm" (ngSubmit)="updateRestaurant(restaurant)">
+                  <div class="container-fluid mt--7">
+                    <div class="row">
+                      <div class="col-xl-6 order-xl-1 mb-5 mb-xl-0">
+                        <div class="card card-profile shadow"  style="margin-top: 100px">
+                          <div class="row justify-content-center">
+                            <div class="col-lg-3 order-lg-2">
+                              <div class="card-profile-image" >
+                                <a>
+                                  <img *ngIf="restaurant.logo" [src]="restaurant.logo"   style="border-radius: 30%;"  style="margin-top: 30px; max-width:200px; height: 100px; text-align: center">
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-body pt-0 pt-md-4">
+                            <div class="text-center">
+                              <h3>
+                                {{ restaurant.storeName }}
+                              </h3>
+                              <div class="h5 font-weight-300" style="height: 15px">
+                                <i class="ni location_pin mr-2"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <agm-map [latitude]="restaurant.lat" [longitude]="restaurant.lng" (mapClick)="onChoseLocation($event)" style="margin-top: 40px">
+                          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                        </agm-map>
+                      </div>
+                      <div class="col-xl-6 order-xl-0" style="margin-top: 60px">
+                        <div class="card bg-secondary shadow">
+                          <div class="card-body" style="background-color: #ffffff; color: #0e3b57">
+                            <div class="pl-lg-6" >
+                              <div class="row" >
+                                <div class="col-lg-6" >
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="storeName"><b >Nom</b></label>
+                                    <input type="text" placeholder="Nom" id="storeName" class="form-control" formControlName="storeName" [ngClass]="{'is-invalid':restaurantForm.get('storeName').invalid && restaurantForm.get('storeName').touched}" [(ngModel)]="restaurant.storeName" name="storeName">
+                                    <div *ngIf="restaurantForm.get('storeName').invalid && restaurantForm.get('storeName').touched" class="invalid-feedback">
+                                      <div *ngIf="restaurantForm.get('storeName').errors.required">StoreName is required</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <label class="form-control-label" for="desc"><b >Description</b></label>
+                                    <input type="text" placeholder="Description" id="desc" class="form-control" formControlName="desc" [ngClass]="{'is-invalid':restaurantForm.get('desc').invalid && restaurantForm.get('desc').touched}" [(ngModel)]="restaurant.desc">
+                                    <div *ngIf="restaurantForm.get('desc').invalid && restaurantForm.get('desc').touched" class="invalid-feedback">
+                                      <div *ngIf="restaurantForm.get('desc').errors.required">Description is required</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <span class="fa fa-2x fa-map-marker"></span> <label class="form-control-label" for="address" style="margin-left: 10px"><b> Address </b></label>
+                                    <textarea id="address" placeholder="Adresse" class="form-control" formControlName="address" [ngClass]="{'is-invalid':restaurantForm.get('address').invalid && restaurantForm.get('address').touched}" [(ngModel)]="restaurant.address"></textarea>
+                                    <div *ngIf="restaurantForm.get('address').invalid && restaurantForm.get('address').touched" class="invalid-feedback">
+                                      <div *ngIf="restaurantForm.get('address').errors.required">Address is required</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <span class="fa fa-2x fa-mobile"></span> <label class="form-control-label" for="phoneNumber" style="margin-left: 10px"><b> Mobile</b></label>
+                                    <input type="text" placeholder="Tél" id="phoneNumber" class="form-control" formControlName="phoneNumber" [ngClass]="{'is-invalid':restaurantForm.get('phoneNumber').invalid && restaurantForm.get('phoneNumber').touched}"  [(ngModel)]="restaurant.phoneNumber">
+                                    <div *ngIf="restaurantForm.get('phoneNumber').invalid && restaurantForm.get('phoneNumber').touched" class="invalid-feedback">
+                                      <div *ngIf="restaurantForm.get('phoneNumber').errors.required">Phone number is required</div>
+                                      <div *ngIf="restaurantForm.get('phoneNumber').errors.pattern">Phone composition not correct</div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                  <div class="form-group" >
+                                    <span class="fa fa-2x fa-facebook"></span> <label class="form-control-label" for="facebookPage" style="margin-left: 10px"><b> Facebook</b></label>
+                                    <input type="text" placeholder="Facebook" id="facebookPage" class="form-control" formControlName="facebookPage"  [(ngModel)]="restaurant.facebookPage">
+                                  </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <span class="fa fa-2x fa-twitter"></span> <label class="form-control-label" for="twitterPage" style="margin-left: 10px"><b> Twitter</b></label>
+                                    <input type="text" placeholder="Twitter" id="twitterPage" class="form-control" formControlName="twitterPage" [(ngModel)]="restaurant.twitterPage">
+                                  </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <span class="fa fa-2x fa-instagram"></span> <label class="form-control-label" for="instagramPage" style="margin-left: 10px"><b> Instagram</b></label>
+                                    <input type="text" placeholder="Instagram" id="instagramPage" class="form-control" formControlName="instagramPage" [(ngModel)]="restaurant.instagramPage">
+                                  </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <span class="fa fa-2x fa-pinterest"></span> <label class="form-control-label" for="pinterestPage" style="margin-left: 10px"><b> Pinterest</b></label>
+                                    <input type="text" placeholder="Pinterest" id="pinterestPage" class="form-control" formControlName="pinterestPage" [(ngModel)]="restaurant.pinterestPage">
+                                  </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                  <div class="form-group" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                    <span class="fa fa-2x fa-at"></span> <label class="form-control-label" for="email" style="margin-left: 10px"><b> Email</b></label>
+                                    <input type="email" placeholder="Email" id="email" class="form-control" formControlName="email" [ngClass]="{'is-invalid':restaurantForm.get('email').invalid && restaurantForm.get('email').touched}" [(ngModel)]="restaurant.email">
+                                    <div *ngIf="restaurantForm.get('email').invalid && restaurantForm.get('email').touched" class="invalid-feedback">
+                                      <div *ngIf="restaurantForm.get('email').errors.required">Email is required</div>
+                                      <div *ngIf="restaurantForm.get('email').errors.email">Email must be a correct address</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <img style="max-width:50px;" *ngIf="restaurant.logo" [src]="restaurant.logo">
+                                  <input type="file" (change)="detectFiles($event)"
+                                         class="form-control" accept="image/*">
+                                  <p class="text-success" *ngIf="fileUploaded">Fichier chargé !</p>
+                                </div>
+                                <button class="btn btn-success " style="margin-left: 220px"
+                                        type="submit">Modifier
+                                </button>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="card-footer py-4 bgglobal">
+      <ngb-pagination
+        [(page)]="page"
+        [pageSize]="pageSize"
+        [collectionSize]="items.length"></ngb-pagination>
+      <nav aria-label="...">
+        <ul class="pagination justify-content-end mb-0">
+          <li class="page-item disabled">
+            <a class="page-link" tabindex="-1">
+              <i class="fa fa-angle-left"></i>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li class="bgdarken">
+            <a class="page-link bgdarken" >1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link">
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="row align-items-center justify-content-xl-between">
+      <div class="col-xl-6">
+        <div class="copyright text-center text-xl-left text-muted">
+          &copy; 2019 <a href="https://www.creative-tim.com/" class="font-weight-bold ml-1" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+          <li class="nav-item">
+            <a href="https://www.creative-tim.com/" class="nav-link" target="_blank"><b style="color: #eee913;">A</b><b style="color: #df1764;">R</b><b style="color: #243d87;">A</b></a>
+          </li>
+          <li class="nav-item">
+            <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Apropos de nous</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
